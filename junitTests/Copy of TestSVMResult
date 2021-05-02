@@ -1,0 +1,104 @@
+/*
+ * Created on Sep 30, 2004
+ *
+ * To change the template for this generated file go to
+ * Window - Preferences - Java - Code Generation - Code and Comments
+ */
+package junitTests;
+
+import data.SVMTestResult;
+import junit.framework.TestCase;
+
+/**
+ * @author tbriggs
+ *
+ * To change the template for this generated type comment go to
+ * Window - Preferences - Java - Code Generation - Code and Comments
+ */
+public class TestSVMResult extends TestCase {
+
+    public static void main(String[] args) {
+        junit.textui.TestRunner.run(TestSVMResult.class);
+    }
+
+    public void testIsBadResult() {
+
+        SVMTestResult R = new SVMTestResult( "", -1, -1, -1);
+        if (!R.isBadResult()) {
+            fail("bad result not set for default result");
+        }
+        
+        
+        R = new SVMTestResult("", 1,0,0);
+        if (R.isBadResult()) {
+            fail("bad result is set for valid result");
+        }
+        
+    }
+
+    /*
+     * Class under test for int compareTo(SVMResult)
+     */
+    public void testCompareToSVMResultBAD() {
+        
+        SVMTestResult bad = new SVMTestResult("",-1,-1,-1);
+        SVMTestResult good = new SVMTestResult("",1.0, 0.3, 0.5);
+        good.setNumLines(10);
+        
+        if (good.compareTo(bad) <= 0) {
+            fail("Comparison good > bad did not work!");
+        }
+        
+        if (bad.compareTo(bad) != 0) {
+            fail("Comparison bad == bad did not work!");
+        }
+           
+    }
+
+    public void testCompareToSVMResultGood( ) {
+        
+        SVMTestResult good = new SVMTestResult("K2(0.33)",.6486,13.00, 20.96, 84);
+        SVMTestResult great = new SVMTestResult("K0()",0.7027, 11.00, 7.33, 84);
+        SVMTestResult best = new SVMTestResult("---",0.70, 8, 2.25, 84);
+
+        
+        good.setNumLines(100);
+        great.setNumLines(150);
+        best.setNumLines(500);
+        
+        if (good.compareTo(great) >= 0) {
+            fail("Comparison good < great did not work");
+        }
+        
+        if (good.compareTo(best) >= 0) {
+            fail("Comparison good < best did not work");
+        }
+        
+        if (great.compareTo(best) >= 0) {
+            fail("Comparison great < best did not work");
+        }
+        
+        if (best.compareTo(best) != 0) {
+            fail("Comparison best == best did not work");
+        }
+        
+    }
+    
+
+    public void testFitness( )
+    {
+        SVMTestResult good = new SVMTestResult("K2(0.33)",.6486,13.00, 20.96, 84);
+        SVMTestResult great = new SVMTestResult("K0()",0.7027, 11.00, 7.33, 84);
+        SVMTestResult best = new SVMTestResult("---",0.70, 8, 2.25, 84);
+
+        good.setNumLines(100);
+        great.setNumLines(150);
+        best.setNumLines(500);
+        
+        System.out.println("good: " + good.getSimpleFitness());
+        System.out.println("great: " + great.getSimpleFitness());
+        System.out.println("best: " + best.getSimpleFitness( ));
+
+    }
+    
+}
